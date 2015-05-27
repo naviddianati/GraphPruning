@@ -8,5 +8,7 @@ People often "prune" the graph by simply setting a threshold on the edge weights
 
 Here, we do this using a version of the configuration model as our null model that defines what we expect an edge’s weight to be given its end-nodes’ degrees. The null model predicts a probability distribution for the value of the edge weight. By comparing the observed weight of an edge with this predicted distribution, we can then compute a p-value which tells us how surprising the observed value is given the null model. This p-value gives us a measure of the statistical significance of the edge, and we can filter the edges according to this significance rather than the raw weight itself.
 
-Link to paper: http://arxiv.org/abs/1503.04085
+- More: http://www.naviddianati.com/research
+- Link to paper: http://arxiv.org/abs/1503.04085
+- HTML version of paper: http://www.naviddianati.com/papers/graphpruning/html/manuscript.html
 
