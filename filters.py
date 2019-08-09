@@ -6,7 +6,10 @@ based on the significance.
 from statsmodels.stats.proportion import binom_test
 import numpy as np
 from math import log
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
 
 def pvalue(mode="undirected", **params):
     """
@@ -70,7 +73,6 @@ def __pvalue_directed(**params):
     q = params.get("q")
 
     p = 1.0 * ku_out * kv_in / q / q / 1.0
-    print "p = %f" % p
     return binom_test(count=w_uv, nobs=q, prop=p, alternative="larger")
 
 
@@ -132,13 +134,16 @@ def __compute_significance_directed(G):
             p = pvalue(w=e['weight'], ku=ks[
                        i0], kv=ks[i1], q=total_degree / 2.0)
             e['significance'] = -log(p)
-        except ValueError:
-            # print e['weight'], ks[i0], ks[i1], total_degree, p
+        except ValueError as e:
+            logger.debug("warning: ValueError {}".format(str(e)))
+            logger.debug("ValueError weight: {} ks[i0]:{} ks[i1]:{} total_degree:{} p:{}".format(e['weight'], ks[i0], ks[i1], total_degree, p))
             e['significance'] = None
+        except Exception  as e:
+            logger.debug("warning: Exception {}".format(str(e)))
 
             # print "error computing significance", p
 
-    max_sig = max(G.es['significance'])
+    max_sig = max([s for s in G.es['significance'] if s is not None])
     for e in G.es:
         if e['significance'] is None:
             e['significance'] = max_sig
