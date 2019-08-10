@@ -140,7 +140,7 @@ def __compute_significance_directed(G):
             e['significance'] = None
         except Exception  as e:
             logger.debug("warning: Exception {}".format(str(e)))
-
+            e['significance'] = None
             # print "error computing significance", p
 
     max_sig = max([s for s in G.es['significance'] if s is not None])
@@ -168,16 +168,21 @@ def __compute_significance_undirected(G):
             p = pvalue(w=e['weight'], ku=ks[
                        i0], kv=ks[i1], q=total_degree / 2.0)
             e['significance'] = -log(p)
-        except ValueError:
-            # print e['weight'], ks[i0], ks[i1], total_degree, p
+        except ValueError as e:
+            logger.debug("warning: ValueError {}".format(str(e)))
+            logger.debug("ValueError weight: {} ks[i0]:{} ks[i1]:{} total_degree:{} p:{}".format(e['weight'], ks[i0], ks[i1], total_degree, p))
+            e['significance'] = None
+        except Exception  as e:
+            logger.debug("warning: Exception {}".format(str(e)))
             e['significance'] = None
 
-            # print "error computing significance", p
 
-    max_sig = max(G.es['significance'])
+    max_sig = max([s for s in G.es['significance'] if s is not None])
     for e in G.es:
         if e['significance'] is None:
             e['significance'] = max_sig
+
+
 
 
 if __name__ == "__main__":
