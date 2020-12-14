@@ -89,7 +89,7 @@ def prune(G, field='significance', percent=None, num_remove=None):
     if percent:
         deathrow = []
         n = len(G.es)
-        threshold_index = n - n * percent / 100
+        threshold_index = int(n - n * percent / 100)
         threshold_value = sorted(G.es[field])[threshold_index]
 
         for e in G.es:
