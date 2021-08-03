@@ -11,6 +11,7 @@ import logging
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger()
 
+
 def pvalue(mode="undirected", **params):
     """
     Compute the p-value of a given edge according the MLF significance
@@ -101,6 +102,7 @@ def prune(G, field='significance', percent=None, num_remove=None):
         G.delete_edges(sorted_indices[:num_remove])
     return G
 
+
 def compute_significance(G):
     '''
     Compute the significance for each edge of a weighted
@@ -114,6 +116,7 @@ def compute_significance(G):
         __compute_significance_directed(G)
     else:
         __compute_significance_undirected(G)
+
 
 def __compute_significance_directed(G):
     """
@@ -149,8 +152,6 @@ def __compute_significance_directed(G):
             e['significance'] = max_sig
 
 
-
-
 def __compute_significance_undirected(G):
     """
     Compute the edge significance for the edges of the
@@ -176,13 +177,10 @@ def __compute_significance_undirected(G):
             logger.debug("warning: Exception {}".format(str(error)))
             e['significance'] = None
 
-
     max_sig = max([s for s in G.es['significance'] if s is not None])
     for e in G.es:
         if e['significance'] is None:
             e['significance'] = max_sig
-
-
 
 
 if __name__ == "__main__":
