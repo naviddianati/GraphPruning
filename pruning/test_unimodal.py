@@ -1,7 +1,7 @@
 '''
 Created on May 6, 2021
 
-@author: navid
+@author: Navid Dianati
 '''
 import unittest
 import igraph as ig
